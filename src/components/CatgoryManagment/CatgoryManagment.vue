@@ -3,7 +3,7 @@
     <div class="content-main">
         <div class="content">
             <div class="manage-flex-just mb-20">
-                <p class="page-title ">MANAGE CATEGORIES</p>
+                <p class="page-title ">MANAGE CATEGORIES </p>
                 <div class="btn-align-end manage-top-button-serach">
                     <div class="slds-form-element">
                         <div class="slds-form-element__control search-inp-control">
@@ -170,8 +170,8 @@
                                         class="slds-hint-parent">
                                         <td class="slds-text-align_right slds-cell_action-mode" role="gridcell">
                                             <div class="slds-checkbox cus-check1">
-                                                <input type="checkbox" name="options" id="checkbox-01"
-                                                    value="checkbox-01" tabindex="0"
+                                                <input type="checkbox" name="options" id="checkbox-01" tabindex="0"
+                                                    :value="categoryD.id"
                                                     aria-labelledby="check-button-label-01 column-group-header" />
                                                 <label class="slds-checkbox__label" for="checkbox-01"
                                                     id="check-button-label-01">
@@ -328,8 +328,8 @@
                             </div>
                             <div class="modal-record-col2">
                                 <div class="slds-form-element__control  ">
-                                    <FormInputTextBox v-bind:value="editModelData.category_title"
-                                        @blur="e => updateCategoryData.categoryName = e.target.value" />
+                                    <FormInputTextBox :value="editModelData.category_title"
+                                        @blur="e => editModelData.category_title = e.target.value" />
                                     <span class="text-danger" id="catnameeerroredit" ref="caterror"></span>
                                 </div>
                             </div>
@@ -341,8 +341,8 @@
                             <div class="modal-record-col2">
                                 <div class="mb-0 user-modal-desc">
                                     <div class="slds-form-element__control ">
-                                        <FormInputDescription v-bind:value="editModelData.category_description"
-                                            @blur="e => updateCategoryData.categoryDescription = e.target.value" />
+                                        <FormInputDescription :value="editModelData.category_description"
+                                            @blur="e => editModelData.category_description = e.target.value" />
                                         <span class="text-danger" id="catedescerroredit" ref="caterror"></span>
                                     </div>
                                 </div>
@@ -387,16 +387,24 @@ export default {
         return {
             error: [],
             categoryName: null,
+            categoryeditName: null,
             categoryDescription: null,
-            editModelData: '',
+            categoryeditDescription: null,
+            categoryAllData: [],
+            editModelData: {
+                categoryeditName: '',
+                categoryeditDescription: '',
+                // categoryImage: '',
+            },
             categoryData: {
                 categoryName: '',
                 categoryDescription: '',
                 // categoryImage: '',
             },
+            selectedIndex: [],
             updateCategoryData: {
-                categoryName: '',
-                categoryDescription: '',
+                categoryeditName: '',
+                categoryeditDescription: '',
                 // categoryImage: '',
             }
         }
@@ -406,13 +414,12 @@ export default {
             this.$refs.addcategory.classList.add("slds-fade-in-open");
             this.$refs.addcategorybackdrop.classList.add("slds-backdrop_open");
         },
+
         openEditModel(id) {
             console.log(id)
             // get Data By Id
             this.axios.post("http://127.0.0.1:8000/api/get-category/" + id, this.categoryData).then((result) => {
                 this.editModelData = result.data.data;
-                console.log(this.editModelData)
-
             }).catch((err) => {
                 console.error(err);
             });
@@ -458,24 +465,21 @@ export default {
         updateCategory(e) {
             document.getElementById("catnameeerroredit").textContent = "";
             document.getElementById("catedescerroredit").textContent = "";
-            console.log(this.updateCategoryData)
-            if (!this.updateCategoryData.categoryName) {
+            
+            if (!this.editModelData.category_title) {
                 document.getElementById("catnameeerroredit").textContent = "Please enter Category Name";
                 e.preventDefault();
             }
-            if (!this.updateCategoryData.categoryDescription) {
+            if (!this.editModelData.category_description) {
                 document.getElementById("catedescerroredit").textContent = "Please enter Description";
                 e.preventDefault();
             }
-            this.axios.post("http://127.0.0.1:8000/api/-category", this.updateCategoryData, {
+            this.axios.post("http://127.0.0.1:8000/api/update-category", this.editModelData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
             }).then((result) => {
-                console.log(result)
-                if (result.data.status == 1) {
-                    this.success = "Data saved...";
-                }
+
                 console.warn(result);
             }).catch((err) => {
                 console.error(err);
