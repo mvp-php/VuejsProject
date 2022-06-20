@@ -140,7 +140,6 @@
                                                     id="cell-resize-handle-536" max="1000" min="20" tabindex="0" />
                                             </div>
                                         </th>
-
                                         <th aria-label="Confidence" aria-sort="none"
                                             class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
                                             scope="col">
@@ -194,7 +193,7 @@
                                         </td>
                                         <td class="slds-cell_action-mode" role="gridcell">
                                             <div class="slds-truncate" title="27/01/2022">
-                                                {{ new Date(categoryD.created_at).toLocaleString() }}
+                                                {{ categoryD.created_at }}
                                             </div>
                                         </td>
                                         <!-- <td class="slds-cell_action-mode" role="gridcell">
@@ -209,15 +208,16 @@
                                                 <div class="slds-truncate" title="30%">
                                                     <div class="action-main manage-content-main">
                                                         <ul class="action-ul">
-                                                            <li> <a title="View" class="view-modal" href="#"><img
+                                                            <li> <a v-on:click="successToasterShow()" title="View"
+                                                                    class="view-modal" href="#"><img
                                                                         src="../../assets/img/svg/eye-blue.svg"
                                                                         alt="icon"></a></li>
                                                             <li> <a v-on:click="openEditModel(categoryD.id)"
                                                                     title="Edit" class="" href="#"><img
                                                                         src="../../assets/img/svg/edit.svg"
                                                                         alt="icon"></a></li>
-                                                            <li> <a class="" href="#"><img
-                                                                        src="../../assets/img/svg/delete.svg"
+                                                            <li> <a v-on:click="openDeleteModel(categoryD.id)" class=""
+                                                                    href="#"><img src="../../assets/img/svg/delete.svg"
                                                                         alt="icon"></a>
                                                             </li>
                                                         </ul>
@@ -229,6 +229,10 @@
                                 </tbody>
                             </table>
                         </div>
+                        <!-- alerts -->
+                        <SuccessMessageVue :success-message="successMessage" id="successMsg" class="successMsg"
+                            :class="{ show: hide }" ref="successNewMsg" />
+                        <!-- alerts -->
                     </div>
                 </div>
             </div>
@@ -262,7 +266,8 @@
                             </div>
                             <div class="modal-record-col2">
                                 <div class="slds-form-element__control  ">
-                                    <FormInputTextBox @blur="e => categoryData.categoryName = e.target.value" />
+                                    <FormInputTextBox @blur="e => categoryData.categoryName = e.target.value"
+                                        placeholder="Enter category" />
                                     <span class="text-danger" id="catnameeerror" ref="caterror"></span>
                                 </div>
                             </div>
@@ -285,7 +290,6 @@
                             <div class="modal-category-col1">
                                 <p class="mb-0 user-modal-title">Upload thumbnail</p>
                             </div>
-
                             <div class="modal-record-col2">
                                 <Dropzone />
                             </div>
@@ -329,7 +333,8 @@
                             <div class="modal-record-col2">
                                 <div class="slds-form-element__control  ">
                                     <FormInputTextBox :value="editModelData.category_title"
-                                        @blur="e => editModelData.category_title = e.target.value" />
+                                        @blur="e => editModelData.category_title = e.target.value"
+                                        placeholder="Enter category" />
                                     <span class="text-danger" id="catnameeerroredit" ref="caterror"></span>
                                 </div>
                             </div>
@@ -352,13 +357,12 @@
                             <div class="modal-category-col1">
                                 <p class="mb-0 user-modal-title">Upload thumbnail</p>
                             </div>
-
                             <div class="modal-record-col2">
                                 <Dropzone />
                             </div>
                         </div>
                         <div class="btn-align-end p-0">
-                            <FormInputButton ButtonName="Add Category" />
+                            <FormInputButton ButtonName="Upate Category" />
                         </div>
                     </form>
                 </div>
@@ -366,6 +370,51 @@
         </section>
         <div class="slds-backdrop " role="presentation" id="add-category-backdrop" ref="addcategorybackdrop"></div>
     </div>
+    <!-- delete mdoel -->
+    <div class="user-record-modal">
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal"
+            id="delete-modal" ref="deleteCategoryModel">
+            <div class="slds-modal__container record-dialog-modal">
+                <div class="slds-modal__header modal-main-record-title">
+                    <!-- <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">USER ROLE DETAILS</h1> -->
+                    <button v-on:click="closeDeleteModel()"
+                        class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse close-modal-record">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="11.354" height="11.385"
+                            viewBox="0 0 11.354 11.385">
+                            <g id="icons_utility_close-copy" data-name="icons/utility/close-copy"
+                                transform="translate(-0.462 -0.462)">
+                                <path id="Mask"
+                                    d="M7.677,5.954l4-4.031a.446.446,0,0,0,0-.646L11.062.631a.446.446,0,0,0-.646,0L6.385,4.662a.3.3,0,0,1-.431,0L1.923.6a.446.446,0,0,0-.646,0l-.646.646a.446.446,0,0,0,0,.646L4.662,5.923a.3.3,0,0,1,0,.431L.6,10.415a.446.446,0,0,0,0,.646l.646.646a.446.446,0,0,0,.646,0L5.923,7.677a.3.3,0,0,1,.431,0l4.031,4.031a.446.446,0,0,0,.646,0l.646-.646a.446.446,0,0,0,0-.646l-4-4.031a.3.3,0,0,1,0-.431Z"
+                                    fill="#06529c" />
+                            </g>
+                        </svg>
+                        <span class="slds-assistive-text">Cancel and close</span>
+                    </button>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium modal-content-record" id="modal-content-id-1">
+                    <div class="delete-modal-main">
+                        <div class="del-big-img">
+                            <img src="../../assets/img/svg/delete.svg" alt="icon">
+                        </div>
+                        <div class="delete-text">
+                            <h3>Are you sure you want to delete category?</h3>
+                            <p>Do you really want to delete these category? This
+                                process cannot be undone</p>
+                        </div>
+                    </div>
+                    <div class="delete-modal-footer">
+                        <button class="slds-button slds-button_neutral btnmain blue-btn modal-btn"
+                            aria-label="Cancel and close" v-on:click="deleteCategory()">Yes</button>
+                        <button class="slds-button slds-button_brand btnmain light-blue-btn modal-btn" id="close-btn1"
+                            v-on:click="closeDeleteModel()">No </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop" role="presentation" id="delete-modal-backdrop">
+        </div>
+    </div>
+    <!-- delete model -->
 </template>
 <script>
 import Layout from '../layout/Layout.vue';
@@ -373,6 +422,7 @@ import Dropzone from '../../components/elements/Dropzone.vue';
 import FormInputTextBox from '../../components/elements/FormInputTextBox.vue';
 import FormInputDescription from '../../components/elements/FormInputDescription.vue';
 import FormInputButton from '../../components/elements/FormInputButton.vue';
+import SuccessMessageVue from '../elements/SuccessMessage.vue';
 import axios from 'axios';
 export default {
     name: 'CategoryManagment',
@@ -382,6 +432,7 @@ export default {
         FormInputTextBox,
         FormInputDescription,
         FormInputButton,
+        SuccessMessageVue,
     },
     data() {
         return {
@@ -406,25 +457,35 @@ export default {
                 categoryeditName: '',
                 categoryeditDescription: '',
                 // categoryImage: '',
-            }
+            },
+            DeleteId: '',
+            hide: false,
+            successMessage: '',
         }
     },
     methods: {
+        getAllCatData() {
+            axios.get("http://127.0.0.1:8000/api/category", this.form).then(
+                function (response) {
+                    this.categoryAllData = response.data.data;
+                }.bind(this)
+            );
+        },
         openModel() {
             this.$refs.addcategory.classList.add("slds-fade-in-open");
             this.$refs.addcategorybackdrop.classList.add("slds-backdrop_open");
         },
-
+        successToasterShow() {
+            this.hide = true;
+            setTimeout(() => this.hide = false, 5000);
+        },
         openEditModel(id) {
-            console.log(id)
             // get Data By Id
             this.axios.post("http://127.0.0.1:8000/api/get-category/" + id, this.categoryData).then((result) => {
                 this.editModelData = result.data.data;
             }).catch((err) => {
                 console.error(err);
             });
-
-
             this.$refs.editcategory.classList.add("slds-fade-in-open");
             this.$refs.editcategorybackdrop.classList.add("slds-backdrop_open");
         },
@@ -435,6 +496,13 @@ export default {
         closeEditModel() {
             this.$refs.editcategory.classList.remove("slds-fade-in-open");
             this.$refs.editcategorybackdrop.classList.remove("slds-backdrop_open");
+        },
+        openDeleteModel(e) {
+            this.$refs.deleteCategoryModel.classList.add("slds-fade-in-open");
+            this.DeleteId = e;
+        },
+        closeDeleteModel() {
+            this.$refs.deleteCategoryModel.classList.remove("slds-fade-in-open");
         },
         addNewCategory(e) {
             document.getElementById("catnameeerror").textContent = "";
@@ -452,20 +520,19 @@ export default {
                     "Content-Type": "multipart/form-data",
                 },
             }).then((result) => {
-                console.log(result)
-                if (result.data.status == 1) {
-                    this.success = "Data saved...";
-                }
-                console.warn(result);
+                this.closeModel();
+                this.getAllCatData();
+                this.successMessage = "Successfully Inserted";
+                this.successToasterShow();
+                console.warn(result)
             }).catch((err) => {
-                console.error(err);
+                console.log(err)
             });
             e.preventDefault();
         },
         updateCategory(e) {
             document.getElementById("catnameeerroredit").textContent = "";
             document.getElementById("catedescerroredit").textContent = "";
-            
             if (!this.editModelData.category_title) {
                 document.getElementById("catnameeerroredit").textContent = "Please enter Category Name";
                 e.preventDefault();
@@ -479,23 +546,38 @@ export default {
                     "Content-Type": "multipart/form-data",
                 },
             }).then((result) => {
-
-                console.warn(result);
+                if (result) {
+                    this.closeEditModel();
+                    this.getAllCatData();
+                    this.successMessage = "Successfully Update";
+                    this.successToasterShow();
+                }
             }).catch((err) => {
-                console.error(err);
+                console.log(err);
             });
             e.preventDefault();
+        },
+        deleteCategory() {
+            this.axios.post("http://127.0.0.1:8000/api/delete-category", {
+                id: this.DeleteId,
+            }).then((result) => {
+                this.$router.push({ name: 'categoryManagement' })
+                console.log(result)
+                this.closeDeleteModel();
+                this.getAllCatData();
+                this.successMessage = "Successfully Deleted";
+                this.successToasterShow();
+            }).catch((err) => {
+                console.log(err);
+            });
         }
     },
     mounted() {
         axios.get("http://127.0.0.1:8000/api/category", this.form).then(
             function (response) {
-                // Handle success
                 this.categoryAllData = response.data.data;
-                console.log(this.categoryAllData);
             }.bind(this)
         );
     }
 }
-
 </script>

@@ -52,8 +52,8 @@ const routes = [
   },
   {
     path: '/category-management',
-    component: CatgoryManagment
-
+    component: CatgoryManagment,
+    name: "categoryManagement",
   },
 
 
