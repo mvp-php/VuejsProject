@@ -11,7 +11,7 @@
                         <span>BACK </span>
                     </div>
                     <div class="blue-text mb-20">
-                        Create A Role {{ loading }}
+                        Create A Role
                     </div>
 
                     <loading v-model:active="loading" :can-cancel="true" :on-cancel="onCancel"

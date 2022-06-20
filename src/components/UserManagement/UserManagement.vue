@@ -13,16 +13,13 @@
                   class="slds-input search-inp" />
               </div>
             </div>
+            <a :href="`${roleAddLink}`" class="slds-button slds-button_brand btnmain blue-btn ml-10">{{ commonLabel}}</a>
             
-            <router-link to="create-role" class="slds-button slds-button_brand btnmain blue-btn ml-10"
-              >Create Role</router-link>
             <button class="slds-button slds-button_brand btnmain light-blue-btn ml-10" href="#">Set Default
               Roles</button>
           </div>
-          <loading v-model:active="isLoading"
-                 :can-cancel="true"
-                 :on-cancel="onCancel"
-                 :is-full-page="fullPage"/>
+           <loading v-model:active="loading" :can-cancel="true" :on-cancel="onCancel"
+                        :is-full-page="fullPage" />
           <div class="slds-tabs_default cus-tab-default">
             <ul class="slds-tabs_default__nav cus-tab-nav nav-top" role="tablist">
 
@@ -86,8 +83,9 @@
 <script>
 import Layout from '../layout/Layout.vue';
 import Table from '../elements/dataTable.vue';
-import RoleDataService from "../services/RoleDataService";
 
+import RoleDataService from "../services/RoleDataService";
+import Loading from 'vue-loading-overlay';
 export default {
   name: 'HelloWorld',
   props: {
@@ -97,7 +95,8 @@ export default {
   },
   components: {
     Layout,
-    Table
+    Table,
+    Loading
   },
   
   data() {
@@ -107,8 +106,11 @@ export default {
       header:[],
       responseList :[],
       tableData:[],
-      isLoading: false,
-      fullPage: true
+      loading: true,
+    
+      roleAddLink:"create-role",
+      commonLabel:""
+     
       
     }
 
@@ -116,41 +118,57 @@ export default {
   created(){
     this.header = ["",'Sr No.','Role Title','No.of Users','Created On','Action'];
     this.responseList = this.roleList();
-
+    this.roleAddLink="create-role";
+    this.commonLabel="Create Role";
   },
   methods: {
     hideShow(value) {
+      this.tableData=[];
       if(value=="roles"){
         this.currentSelection='roles'
         this.header=["",'Sr No.','Role Title','No.of Users','Created On','Action'];
         this.responseList = this.roleList();
-      
-        
+        this.roleAddLink="create-role";
+        this.commonLabel="Create Role";
       }else{
         this.currentSelection='users'
+        this.userList();
         this.header=['SrNo','Title','Action'];
-        this.tableData=[["1","Hiten","edit"],["1","Hiten","edit"],["1","Hiten","edit"],["1","Hiten","edit"],["1","Hiten","edit"]];
-      
+        
+        this.roleAddLink="create-user";
+        this.commonLabel="Create User";
       }
 
      
     },
     
    async roleList() {
-      this.isLoading = true
-       await RoleDataService.getRoleList()
-            .then(async response => {
-              this.responseList= await response.data.data;
-            console.log(this.responseList,"News");
+      var _this = this;
+      await RoleDataService.getRoleList()
+          .then(async response => {
+            _this.loading = false;
+            this.responseList= await response.data.data;
+            
             this.tableData = this.responseList;
+      
+      }).catch(e => {
+        console.log(e)
+    });
+      
+    },
+    async userList(){
+      this.loading =true
+      var _this = this;
+      await RoleDataService.getRoleList()
+            .then(async response => {
+              _this.loading = false;
+              this.responseList= await response.data.data;
+              
+              this.tableData = this.responseList;
         
         }).catch(e => {
           console.log(e)
-      }).finally(() => (this.isLoading = false));
-      
-    },
-    userList(){
-      console.log('Users');
+      });
     },
   }
 

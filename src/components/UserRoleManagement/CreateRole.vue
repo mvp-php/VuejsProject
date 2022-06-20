@@ -20,7 +20,7 @@
                                     User Role Title <span class="require-danger">*</span></label>
                                 <div class="slds-form-element__control custom-grid-control">
                                     <InputTextBox @blur="e => roleForm.role_name = e.target.value"
-                                       class="slds-input custom-grid-input mb-20" />
+                                        class="slds-input custom-grid-input mb-20" />
 
                                 </div>
                             </div>
@@ -28,12 +28,41 @@
                                 <label class="slds-form-element__label custom-label" for="textarea-id-01">Description
                                 </label>
                                 <div class="slds-form-element__control custom-grid-control">
-                                    <textArea  @blur="e => roleForm.description = e.target.value" id="textarea-id-01"
+                                    <textArea @blur="e => roleForm.description = e.target.value" id="textarea-id-01"
                                         placeholder="Description comes here with a character limit."
-                                        class="slds-textarea custom-grid-textarea mb-30"/>
-                                    
+                                        class="slds-textarea custom-grid-textarea mb-30" />
+
                                 </div>
                             </div>
+                            <div v-for="item in EntitiesList" :key="item">
+                                <div class="slds-form-element check-element-main mb-35" v-for="(value, key) in item" :key="value">
+                                    <label class="slds-form-element__label custom-label" for="textarea-id-01">{{ key }}
+                                        <span class="require-danger">*</span>
+                                    </label>
+                                    
+                                    
+                                    
+                                    <div class="check-boxes" v-for="operation in value" :key="operation">
+                                    
+                                        <div class="slds-form-element  check-element-inner">
+                                            <div class="slds-form-element__control">
+                                                <div class="slds-checkbox role-check-main">
+                                                    <input type="checkbox" name="options" id="${operation.id}"
+                                                        value="checkbox-unique-id-1" class="role-check" />
+                                                    <label class="slds-checkbox__label" for="checkbox-unique-id-1">
+                                                        <span class="slds-checkbox_faux"></span>
+                                                        <span class="slds-form-element__label">{{operation.permission_code}}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                            
+                                    </div>
+                                    
+                                        
+                                </div>
+                            </div>
+                            
                         </div>
                         <div class="btn-align-end">
                             <button type="submit" class="slds-button slds-button_brand btnmain blue-btn ml-10">Save
@@ -67,10 +96,10 @@ export default {
             EntitiesList: [],
             allerros: [],
             placeholder: "Special instructor",
-      
+
             roleForm: {
                 role_name: '',
-                descrription:"",
+                descrription: "",
 
             },
         }
@@ -86,8 +115,8 @@ export default {
             RoleDataService.create(this.roleForm).then(response => {
                 this.$router.push({ name: 'user-management' });
                 console.log(response)
-                    
-                })
+
+            })
                 .catch(e => {
                     console.log(e);
                 });
@@ -96,7 +125,7 @@ export default {
         async getEntitiesAndPermissionList() {
             RoleDataService.getEntitiesAndPermissionList()
                 .then(response => {
-                    this.EntitiesList = response.data;
+                    this.EntitiesList = response.data.data;
                     console.log(response.data);
                 })
                 .catch(e => {

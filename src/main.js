@@ -10,7 +10,7 @@ import Vuelidate from 'vuelidate'
 import VueToast from 'vue-toast-notification';
 
 import 'vue-toast-notification/dist/theme-sugar.css';
-import Loading from 'vue-loading-overlay';
+
 import 'vue-loading-overlay/dist/vue-loading.css';
 axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
@@ -24,7 +24,7 @@ app.use(VueAxios, axios)
 app.use(VueToast)
 app.use(Vuelidate)
 app.use(VuelidatePlugin)
-app.use(Loading)
+
 app.use(router);
 
 app.mount("#app");

@@ -1331,6 +1331,6 @@ border:none;
 .color-pallete{
     height:150px;
 }
-.require-danger{
+.require-danger,.text-danger{
     color:red;
 }

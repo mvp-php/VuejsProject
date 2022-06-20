@@ -16,6 +16,10 @@ class RoleDataService {
   getDetailsById(id){
     return http.get(`/role-detail/${id}`, { headers: authHeader() });
   }
+
+  getAllRoleList(){
+    return http.get(`/all-role-list`, { headers: authHeader() });
+  }
   
 }
 export default new RoleDataService();

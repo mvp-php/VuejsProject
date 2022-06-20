@@ -69,7 +69,7 @@ export default {
           
           this.allerros = [];
           localStorage.setItem("userData", JSON.stringify(result.data.data))
-          this.$router.push({ name: 'home' });
+          this.$router.push({ name: 'user-management' });
         }).catch(error => {
           this.allerros = error.response.data.error_msg;
           this.$toast.error(error.response.data.error_msg);
