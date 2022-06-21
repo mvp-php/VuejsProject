@@ -7,6 +7,7 @@ import ResetSuccess from "./components/ResetSuccessfully.vue";
 import Dashboard from './components/Dashboard/Dashboard.vue';
 import UserManagement from './components/UserManagement/UserManagement.vue';
 import CatgoryManagment from './components/CatgoryManagment/CatgoryManagment.vue';
+import subcategoryManagement from './components/SubcategoryManagment/SubcategoryManagment.vue';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import Dropzone from './components/Dropzone.vue';
 // import auth from './middleware/auth';
@@ -54,6 +55,11 @@ const routes = [
     path: '/category-management',
     component: CatgoryManagment,
     name: "categoryManagement",
+  },
+  {
+    path: '/subcategory-management/:id',
+    component: subcategoryManagement,
+    name: "SubcategoryManagment",
   },
 
 
