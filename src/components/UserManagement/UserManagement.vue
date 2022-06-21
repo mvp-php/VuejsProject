@@ -85,6 +85,7 @@ import Layout from '../layout/Layout.vue';
 import Table from '../elements/dataTable.vue';
 
 import RoleDataService from "../services/RoleDataService";
+import userService from "../services/UserService";
 import Loading from 'vue-loading-overlay';
 export default {
   name: 'HelloWorld',
@@ -124,6 +125,7 @@ export default {
   methods: {
     hideShow(value) {
       this.tableData=[];
+      this.header=[];
       if(value=="roles"){
         this.currentSelection='roles'
         this.header=["",'Sr No.','Role Title','No.of Users','Created On','Action'];
@@ -133,7 +135,7 @@ export default {
       }else{
         this.currentSelection='users'
         this.userList();
-        this.header=['SrNo','Title','Action'];
+        this.header=["",'SrNo','User Name','Email Id','Role','Created On','Action'];
         
         this.roleAddLink="create-user";
         this.commonLabel="Create User";
@@ -159,7 +161,7 @@ export default {
     async userList(){
       this.loading =true
       var _this = this;
-      await RoleDataService.getRoleList()
+      await userService.getUserList()
             .then(async response => {
               _this.loading = false;
               this.responseList= await response.data.data;

@@ -47,10 +47,10 @@
                             <div class="slds-form-element custom-grid">
                                 <label class="slds-form-element__label custom-label" for="text-input-id-46">
                                     Role <span class="require-danger">*</span></label>
-                                <div class="slds-form-element__control custom-grid-control">
-                                   <selectDropdown :options="option" class="slds-input custom-grid-input mb-20"/>
-                                   
-                                </div>
+                                    <div class="slds-form-element__control custom-grid-control" >
+                                        <dropdownComponent :rolesDropList="allRoleList" class="slds-select mb-20 custom-grid-input" @change="e => userForm.role_id = e.target.value" />
+                                    </div>
+                                    
                             </div>
                         </div>
                         <div class="btn-align-end">
@@ -71,9 +71,11 @@
 import Layout from '../layout/Layout.vue';
 import ButtonComponent from '../elements/formInputButton.vue';
 import InputTextBox from "../elements/FormInputTextBox.vue";
-import selectDropdown from "../elements/selectDropdown.vue";
+import dropdownComponent from "../elements/selectDropdown.vue";
 import RoleDataService from "../services/RoleDataService";
+import userService from "../services/UserService";
 import Loading from 'vue-loading-overlay';
+
 export default {
     name: 'Component',
     components: {
@@ -81,21 +83,20 @@ export default {
         ButtonComponent,
         InputTextBox,
         Loading,
-        selectDropdown,
-       
+        dropdownComponent,
       
     },
     data() {
         return {
             ButtonName:"Save User",
             loading: true,
-            option:"",
+            allRoleList:[],
+            successMessage: '',
             userForm: {
                 first_name: '',
                 last_name:'',
                 email:'',
-              
-
+                role_id:""
             },
         }
     },
@@ -103,26 +104,46 @@ export default {
         this.getRoleList();
     },
     methods: {
-        async getRoleList(){
-            var _this = this;
-            RoleDataService.getAllRoleList().then(async response => {
-              _this.loading = false;
-                    this.responseList= await response.data.data;
+        getRoleList(){
+           
+            RoleDataService.getAllRoleList().then(response => {
+              this.loading = false;
+                    this.allRoleList= response.data.data;
                     
-                    this.option = this.responseList;
-                
                 }).catch(e => {
                 console.log(e)
             });
+            
         },
-        submitData(){
+        submitData(){ 
             document.getElementById("first_name_error").textContent = "";
-            document.getElementById("catedescerroredit").textContent = "";
-
+            document.getElementById("last_name_error").textContent = "";
+            document.getElementById("email_error").textContent = "";
+   
             if (!this.userForm.first_name) {
-                document.getElementById("first_name_error").textContent = "Enter the major category name";
+                document.getElementById("first_name_error").textContent = "Enter the first name";
                 event.preventDefault();
             }
+            if (!this.userForm.last_name) {
+                document.getElementById("last_name_error").textContent = "Enter the last name";
+                event.preventDefault();
+            }
+            if (!this.userForm.email) {
+                document.getElementById("email_error").textContent = "Enter the email id";
+                event.preventDefault();
+            }
+            userService.saveUser(this.userForm)
+                .then((result) => {
+                    console.log(result)
+                    
+                   this.$router.push({ name: 'user-management' });
+                }).catch(error => {
+
+    console.log(error);
+
+                
+
+                })
         }
     }
 

@@ -6,12 +6,8 @@ class UserService {
     return http.post(`/user-save/`,data, { headers: authHeader() });
   }
 
-  getEditDetails(id){
-    return http.get(`/edit-category-detail/${id}`, { headers: authHeader() });
-  }
-
-  getAllRoleList(){
-    return http.get(`/all-role-list`, { headers: authHeader() });
+  getUserList(){
+    return http.get(`/user-list/`,{ headers: authHeader() });
   }
   
 }
