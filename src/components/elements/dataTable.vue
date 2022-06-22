@@ -83,7 +83,7 @@
                                 <ul class="action-ul">
                                     <li> <a class="user-role-modal" href="#" :id='item.id'><img src="../../assets/img/svg/eye-blue.svg"
                                                 alt="icon"></a></li>
-                                    <li> <router-link :to="`/edit-role/${item.id}`" class="" ><img src="../../assets/img/svg/edit.svg" alt="icon"></router-link></li>
+                                    <li> <router-link :to="`/edit-user/${item.id}`" class="" ><img src="../../assets/img/svg/edit.svg" alt="icon"></router-link></li>
                                    
                                     <li> <a class="" href="#"><img src="../../assets/img/svg/delete.svg" alt="icon"></a></li>
                                 </ul>

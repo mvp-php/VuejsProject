@@ -9,7 +9,8 @@ import UserManagement from './components/UserManagement/UserManagement.vue';
 import CreateRole from './components/UserRoleManagement/CreateRole.vue';
 import EditRole from './components/UserRoleManagement/EditRole.vue';
 import createUserComponent from './components/UserManagement/createUser.vue';
-import CategoryManagment from './components/CategoryManagment/CategoryManagment.vue';
+import editUserComponent from './components/UserManagement/editUser.vue';
+import CategoryManagment from './components/CategoryManagment/CategoryManagment.vue'; 
 import auth from './middleware/auth';
 const routes = [
   {
@@ -79,6 +80,14 @@ const routes = [
     path: '/create-user',
     component: createUserComponent,
     name: "create-user",
+    meta: {
+      middleware: [auth],
+    }
+  },
+  {
+    path: '/edit-user/:id',
+    component: editUserComponent,
+    name: "edit-user",
     meta: {
       middleware: [auth],
     }

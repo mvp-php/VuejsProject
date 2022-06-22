@@ -10,5 +10,8 @@ class UserService {
     return http.get(`/user-list/`,{ headers: authHeader() });
   }
   
+  getUserDetails(id){
+    return http.get(`/edit-user-detail/${id}`, { headers: authHeader() });
+  }
 }
 export default new UserService();

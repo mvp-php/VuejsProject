@@ -21,7 +21,7 @@
                                     First Name <span class="require-danger">*</span></label>
                                 <div class="slds-form-element__control custom-grid-control">
                                     <InputTextBox @blur="e => userForm.first_name = e.target.value"
-                                        class="slds-input custom-grid-input mb-20" id="first_name" placeHolder="User Name"/>
+                                        class="slds-input custom-grid-input mb-20" id="first_name" placeHolder="First Name"/>
                                     <span class="text-danger" id="first_name_error" ref="caterror"></span>
                                 </div>
                             </div>
@@ -30,7 +30,7 @@
                                     Last Name <span class="require-danger">*</span></label>
                                 <div class="slds-form-element__control custom-grid-control">
                                     <InputTextBox @blur="e => userForm.last_name = e.target.value"
-                                        class="slds-input custom-grid-input mb-20" id="last_name" placeHolder="User Name"/>
+                                        class="slds-input custom-grid-input mb-20" id="last_name" placeHolder="Last Name"/>
                                     <span class="text-danger" id="last_name_error" ref="caterror"></span>
                                 </div>
                             </div>
