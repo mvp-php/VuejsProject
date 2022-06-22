@@ -12,7 +12,7 @@
                         </div>
                     </div>
                     <a class="slds-button slds-button_brand btnmain blue-btn ml-10" href="javascript:void(0)"
-                        id="add-category-btn" v-on:click="openModel()">Add
+                        id="add-category-btn" v-on:click="openModel()">Add Major
                         Category</a>
                 </div>
             </div>
@@ -140,6 +140,35 @@
                                                     id="cell-resize-handle-536" max="1000" min="20" tabindex="0" />
                                             </div>
                                         </th>
+                                        <th aria-label="Close Date" aria-sort="none"
+                                            class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
+                                            scope="col">
+                                            <a class="slds-th__action slds-text-link_reset" href="#" role="button"
+                                                tabindex="0">
+                                                <span class="slds-assistive-text">Sort by: </span>
+                                                <div
+                                                    class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                    <span class="slds-truncate" title="Close Date">Add Sub
+                                                        Category</span>
+                                                    <span><img src="../../assets/img/svg/filter.svg" alt="filter"
+                                                            class="filter"></span>
+                                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon "
+                                                            aria-hidden="true">
+                                                            <use
+                                                                xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                                            </use>
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                            <div class="slds-resizable">
+                                                <input type="range" aria-label="Close Date column width"
+                                                    class="slds-resizable__input slds-assistive-text"
+                                                    id="cell-resize-handle-535" max="1000" min="20" tabindex="0" />
+
+                                            </div>
+                                        </th>
                                         <th aria-label="Confidence" aria-sort="none"
                                             class="slds-is-resizable slds-is-sortable slds-cell_action-mode"
                                             scope="col">
@@ -197,6 +226,14 @@
                                             </div>
                                         </td>
                                         <td class="slds-cell_action-mode" role="gridcell">
+                                            <div class="slds-truncate" title="2">
+                                                <a v-on:click="openSubCategoryModel(categoryD.id)"
+                                                    href="javascript:void(0)" class="btn btn-table-add"> <img
+                                                        src="../../assets/img/svg/plus-add.svg" alt="add-img"
+                                                        class="all-img-add"> add</a>
+                                            </div>
+                                        </td>
+                                        <td class="slds-cell_action-mode" role="gridcell">
                                             <div class="slds-truncate" title="">
                                                 <div class="slds-truncate" title="30%">
                                                     <div class="action-main manage-content-main">
@@ -213,14 +250,14 @@
                                                                     href="#"><img src="../../assets/img/svg/delete.svg"
                                                                         alt="icon"></a>
                                                             </li>
-                                                            <li>
+                                                            <!-- <li>
                                                                 <router-link
                                                                     :to="{ path: '/subcategory-management/' + categoryD.id }">
                                                                     <a href="#" title="Add Sub Category">
                                                                         <img src="../../assets/img/svg/plus-add.svg"
                                                                             alt="add-img" class="all-img-add"></a>
                                                                 </router-link>
-                                                            </li>
+                                                            </li> -->
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -296,7 +333,7 @@
                             </div>
                         </div>
                         <div class="btn-align-end p-0">
-                            <FormInputButton ButtonName="Add Category" />
+                            <FormInputButton ButtonName="Add Major Category" />
                         </div>
                     </form>
                 </div>
@@ -765,6 +802,7 @@ export default {
             this.$refs.addsubcategorybackdrop.classList.remove("slds-backdrop_open");
         },
         addSubCategory(e) {
+
             document.getElementById("majorCategoryerror").textContent = "";
             document.getElementById("subcatnameeerror").textContent = "";
             document.getElementById("subcatedescerror").textContent = "";
@@ -785,12 +823,14 @@ export default {
                     "Content-Type": "multipart/form-data",
                 },
             }).then((result) => {
+                console.log(result.data.data[0].parent_category_id)
+                // var catId = result.data.data[0].parent_category_id;
                 document.getElementById("SubCategory").textContent = "";
                 this.closeSubCategoryModel();
                 this.getAllCatData();
                 this.successMessage = "Successfully Inserted";
+                // this.$router.push({ path: 'subcategory-management' + catId});
                 this.successToasterShow();
-                console.warn(result)
             }).catch((err) => {
                 console.log(err)
             });

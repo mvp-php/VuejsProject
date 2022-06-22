@@ -1,7 +1,7 @@
 <template>
     <select>
         <option value="">Select Major Category</option>
-        <option v-for="category in categoryList" :key="category" :value="category.id">
+        <option v-for="category in categoryList" :key="category" :value="category.id" :selected="selectedOption">
             {{ category.category_title }}</option>
     </select>
 </template>
