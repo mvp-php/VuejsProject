@@ -11,6 +11,9 @@ import EditRole from './components/UserRoleManagement/EditRole.vue';
 import createUserComponent from './components/UserManagement/createUser.vue';
 import editUserComponent from './components/UserManagement/editUser.vue';
 import CategoryManagment from './components/CategoryManagment/CategoryManagment.vue'; 
+import CatgoryManagment from './components/CatgoryManagment/CatgoryManagment.vue';
+import subcategoryManagement from './components/SubcategoryManagment/SubcategoryManagment.vue';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import auth from './middleware/auth';
 const routes = [
   {
@@ -91,7 +94,17 @@ const routes = [
     meta: {
       middleware: [auth],
     }
-  }
+  },
+  {
+    path: '/category-management',
+    component: CatgoryManagment,
+    name: "categoryManagement",
+  },
+  {
+    path: '/subcategory-management/:id',
+    component: subcategoryManagement,
+    name: "SubcategoryManagment",
+  },
 
 
 ];

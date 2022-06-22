@@ -35,7 +35,7 @@
                         </router-link>
                     </li>
                     <li>
-                        <a href="">
+                        <router-link to="/category-management">
                             <div class="side-svg-main slds-align_absolute-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20.542" height="15"
                                     viewBox="0 0 20.542 15">
@@ -48,7 +48,8 @@
                                 </svg>
                                 <div class="sidebar-tooltip"><span>Manage Categories</span> </div>
                             </div>
-                        </a>
+                        </router-link>
+
                     </li>
                     <li>
                         <a href="">

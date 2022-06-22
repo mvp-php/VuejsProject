@@ -24,11 +24,23 @@ export default {
                 formData.append("images[]", files[x]);
             }
 
-         
+            // post the formData to your backend where storage is processed. In the backend, you will need to loop through the array and save each file through the loop.
+
+            // axios
+            //     .post(url, formData, {
+            //         headers: {
+            //             "Content-Type": "multipart/form-data",
+            //         },
+            //     })
+            //     .then((response) => {
+            //         console.info(response.data);
+            //     })
+            //     .catch((err) => {
+            //         console.error(err);
+            //     });
         };
 
         function onDrop(acceptFiles, rejectReasons) {
-            console.log(acceptFiles);
             saveFiles(acceptFiles); // saveFiles as callback
             console.log(rejectReasons);
         }
@@ -57,7 +69,9 @@ export default {
     background-color: #fff;
     transition: 0.3s ease all;
 
-    label {
+   
+}
+ label {
         padding: 8px 12px;
         color: #fff;
         background-color: #41b883;
@@ -67,16 +81,15 @@ export default {
     input {
         display: none;
     }
-}
-
 .active-dropzone {
     color: #fff;
     border-color: #fff;
     background-color: #41b883;
 
-    label {
+    
+}
+label {
         background-color: #fff;
         color: #41b883;
     }
-}
 </style>
