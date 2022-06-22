@@ -1,5 +1,5 @@
 <template>
-    <button type="submit" class="slds-button slds-button_brand btnmain blue-btn "  >{{ ButtonName }}</button>
+    <button>{{ ButtonName }}</button>
 </template>
 <script>
 export default {
