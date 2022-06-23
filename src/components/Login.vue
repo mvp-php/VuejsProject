@@ -9,6 +9,7 @@
           <div class="slds-form-element__control">
             <input v-model="loginForm.email" type="email" name="email" id="text-input-id-2" class="slds-input"
               placeholder="Email"  autocomplete="off" />
+              <span class="text-danger" id="email_error" ref="caterror"></span>
               
           </div>
         </div>
@@ -19,7 +20,8 @@
               placeholder="Password" class="slds-input"  autocomplete="off"/>
             
             <button type="button" class="eye-btn toggle-password" @click="toggleShow"> <i class="fas" :class="{ 'fa-eye-slash': showPassword, 'fa-eye': !showPassword }"></i></button>
-          </div>
+          <span class="text-danger" id="password_error" ref="caterror"></span>
+         </div>
           
         </div>
         <div class="forgot-password-link mb-20">
@@ -62,8 +64,25 @@ export default {
   methods: {
     
     submitData() {
-   
-       this.axios.post(process.env.VUE_APP_BASE_URL + '/' + process.env.VUE_APP_VERSION + "/call-login", this.loginForm, {
+        document.getElementById("email_error").textContent = "";
+        document.getElementById("password_error").textContent = "";
+        
+        var cnt =0;
+
+        if(!this.loginForm.email){
+            document.getElementById("email_error").textContent = "Enter the email address";
+            event.preventDefault();
+            cnt =1;
+        }
+
+        if(!this.loginForm.password){
+            document.getElementById("password_error").textContent = "Enter the password";
+            event.preventDefault();
+            cnt =1;
+        }
+
+        if(cnt ==0){
+           this.axios.post(process.env.VUE_APP_BASE_URL + '/' + process.env.VUE_APP_VERSION + "/call-login", this.loginForm, {
           headers: {}
         }).then((result) => {
           
@@ -77,6 +96,8 @@ export default {
         })
         setTimeout(this.$toast.clear, 3000)
         event.preventDefault();
+        }
+      
       
     },
     toggleShow() {

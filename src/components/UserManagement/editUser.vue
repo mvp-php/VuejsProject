@@ -168,7 +168,7 @@ import RoleDataService from "../services/RoleDataService";
 import userService from "../services/UserService";
 import Loading from 'vue-loading-overlay';
 import PaymentPlanService from "../services/PaymentPlanService";
-import moment from 'moment';
+
 export default {
     name: 'Component',
     components: {
@@ -186,7 +186,7 @@ export default {
             paymentPlan: [],
             userDetails:'',
             successMessage: '',
-            moment: moment,
+           
             userForm: {
                 first_name: '',
                 last_name:'',

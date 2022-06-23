@@ -12,6 +12,7 @@
                     <div class="slds-form-element__control">
                         <input type="text"  v-model="forgotForm.email" name="email" id="text-input-id-2" placeholder="" 
                             class="slds-input" />
+                            <span class="text-danger" id="email_error" ref="caterror"></span>
                     </div>
                 </div>
 
@@ -46,6 +47,11 @@ export default {
     methods: {
       
         submitData(e) {
+            document.getElementById("email_error").textContent = "";
+
+            if(!this.forgotForm.email){
+                document.getElementById("email_error").textContent = "";
+            }
             this.axios.post(process.env.VUE_APP_BASE_URL + '/' + process.env.VUE_APP_VERSION + "/forgot-password", this.forgotForm).then((result) => {
                 console.log(result)
                 this.$router.push({ name: 'link-successfully' });
