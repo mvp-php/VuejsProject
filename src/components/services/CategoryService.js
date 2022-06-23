@@ -10,12 +10,22 @@ class CategoryService {
   }
 
   getEditDetails(id){
-    return http.get(`/edit-category-detail/${id}`, { headers: authHeader() });
+    return http.get(`/get-category/${id}`, { headers: authHeader() });
   }
 
-  getAllRoleList(){
-    return http.get(`/all-role-list`, { headers: authHeader() });
+  updateCategory(data){
+    return http.post(`/update-category`,data, { headers: authHeader() });
   }
+  
+  deleteCategory(id){
+    return http.post(`/delete-category/`,{id: id,},{ headers: authHeader() });
+  }
+
+  getAllCategoryList(){
+    return http.get(`/category`, { headers: authHeader() });
+  }
+
+  
   
 }
 export default new CategoryService();

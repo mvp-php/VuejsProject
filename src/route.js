@@ -11,6 +11,8 @@ import EditRole from './components/UserRoleManagement/EditRole.vue';
 import createUserComponent from './components/UserManagement/createUser.vue';
 import editUserComponent from './components/UserManagement/editUser.vue';
 import CategoryManagment from './components/CategoryManagment/CategoryManagment.vue'; 
+import subcategoryManagement from './components/SubcategoryManagment/SubcategoryManagment.vue';
+
 import auth from './middleware/auth';
 const routes = [
   {
@@ -90,8 +92,17 @@ const routes = [
     name: "edit-user",
     meta: {
       middleware: [auth],
-    }
-  }
+    },
+    
+  },
+  {
+    path: '/subcategory-management/:id',
+    component: subcategoryManagement,
+    name: "SubcategoryManagment",
+    meta: {
+      middleware: [auth],
+    },
+  },
 
 
 ];

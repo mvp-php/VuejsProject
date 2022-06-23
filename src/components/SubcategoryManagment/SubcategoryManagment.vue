@@ -189,7 +189,7 @@
                                         </td>
                                         <td class="slds-cell_action-mode" role="gridcell">
                                             <div class="slds-truncate" title="Network security">
-                                                {{ categoryD.category.category_title }}</div>
+                                                {{ categoryD.category }}</div>
                                         </td>
                                         <td class="slds-cell_action-mode" role="gridcell">
                                             <div class="slds-truncate" title="27/01/2022">
@@ -224,7 +224,7 @@
                             </table>
                         </div>
                         <SuccessMessageVue :success-message="successMessage" id="successMsg" class="successMsg"
-                            :class="{ show: hide }" ref="successNewMsg" />
+                            v-if="!hides" ref="successNewMsg" />
                     </div>
                 </div>
             </div>
@@ -306,6 +306,7 @@
                             <div class="modal-category-col1">
                                 <p class="mb-0 user-modal-title">Select Major Category</p>
                             </div>
+                    
                             <div class="modal-record-col2">
                                 <div class="slds-form-element__control  ">
                                     <FormInputSelect @blur="e => subCategoryData.majorCategory = e.target.value"
@@ -322,7 +323,7 @@
                             </div>
                             <div class="modal-record-col2">
                                 <div class="slds-form-element__control  ">
-                                    <FormInputTextBox id="SubCategory"
+                                    <FormInputTextBox class="slds-input custom-grid-input" id="SubCategory"
                                         @blur="e => subCategoryData.subCategoryName = e.target.value"
                                         placeholder="Enter category" />
                                     <span class="text-danger" id="subcatnameeerror" ref="subcatnameeerror"></span>
@@ -336,7 +337,7 @@
                             <div class="modal-record-col2">
                                 <div class="mb-0 user-modal-desc">
                                     <div class="slds-form-element__control ">
-                                        <FormInputDescription
+                                        <FormInputDescription class="slds-input custom-grid-input"
                                             @blur="e => subCategoryData.subCategoryDescription = e.target.value" />
                                         <span class="text-danger" id="subcatedescerror" ref="subcatedescerror"></span>
                                     </div>
@@ -390,6 +391,8 @@
                             <div class="modal-category-col1">
                                 <p class="mb-0 user-modal-title">Select Major Category</p>
                             </div>
+     
+                    
                             <div class="modal-record-col2">
                                 <div class="slds-form-element__control  ">
                                     <select @blur="e => editModelData.majorEditCategory = e.target.value"
@@ -398,7 +401,7 @@
                                         <option value="">Select Major Category</option>
                                         <option v-for="category in SubCategoryAllData" :key="category"
                                             :value="category.id">
-                                            {{ category.category_title }}
+                                            {{ category.title }}
                                         </option>
 
                                     </select>
@@ -413,8 +416,8 @@
                             </div>
                             <div class="modal-record-col2">
                                 <div class="slds-form-element__control  ">
-                                    <FormInputTextBox :value="editModelData.category_title"
-                                        @blur="e => editModelData.category_title = e.target.value"
+                                    <FormInputTextBox :value="editModelData.title"
+                                        @blur="e => editModelData.title = e.target.value"
                                         placeholder="Enter category" />
                                     <span class="text-danger" id="catnameeerroredit" ref="caterror"></span>
                                 </div>
@@ -427,8 +430,8 @@
                             <div class="modal-record-col2">
                                 <div class="mb-0 user-modal-desc">
                                     <div class="slds-form-element__control ">
-                                        <FormInputDescription :value="editModelData.category_description"
-                                            @blur="e => editModelData.category_description = e.target.value" />
+                                        <FormInputDescription :value="editModelData.description"
+                                            @blur="e => editModelData.description = e.target.value" />
                                         <span class="text-danger" id="catedescerroredit" ref="caterror"></span>
                                     </div>
                                 </div>
@@ -486,7 +489,7 @@
                                     </div>
                                     <div class="course-col2">
                                         <div class="course-title-desc">
-                                            <p class="mb-0">{{ editModelData.category_title }} </p>
+                                            <p class="mb-0">{{ editModelData.title }} </p>
                                         </div>
                                     </div>
                                 </div>
@@ -498,7 +501,7 @@
                                     </div>
                                     <div class="course-col2">
                                         <div class="course-title-desc">
-                                            <p class="mb-0">{{ editModelData.category.category_title }} </p>
+                                            <p class="mb-0">{{ editModelData.category.title }} </p>
                                         </div>
                                     </div>
                                 </div>
@@ -510,7 +513,7 @@
                                     </div>
                                     <div class="course-col2">
                                         <div class="course-title-desc">
-                                            <p class="mb-0">{{ editModelData.category_description }}</p>
+                                            <p class="mb-0">{{ editModelData.description }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -541,8 +544,10 @@ import FormInputTextBox from '../../components/elements/FormInputTextBox.vue';
 import FormInputDescription from '../../components/elements/FormInputDescription.vue';
 import FormInputButton from '../../components/elements/formInputButton.vue';
 import SuccessMessageVue from '../elements/SuccessMessage.vue';
-import FormInputSelect from '../elements/selectDropdown.vue';
-import axios from 'axios';
+import FormInputSelect from '../elements/FromInputSelect.vue';
+import CategoryService from '../services/CategoryService';
+import SubcategoryService from '../services/SubcategoryService';
+
 export default {
     name: 'CategoryManagment',
     components: {
@@ -557,6 +562,7 @@ export default {
     data() {
         return {
             error: [],
+            hides:true,
             categoryName: null,
             categoryeditName: null,
             majorEditCategory: null,
@@ -590,23 +596,20 @@ export default {
     },
     methods: {
         getAllSubCatData() {
-            axios.get("http://127.0.0.1:8000/api/get-all-sub-category", this.form).then(
+            SubcategoryService.getSubCategoryList().then(
                 function (response) {
-                    //                    this.SubCategoryAllData = response.data.data;
                     this.categoryAllData = response.data.data;
                 }.bind(this)
             );
+            
         },
         successToasterShow() {
-            this.hide = true;
-            setTimeout(() => this.hide = false, 5000);
+            this.hides = false;
+            setTimeout(() => this.hides = true, 5000);
         },
         openSubCategoryModel() {
-            axios.get("http://127.0.0.1:8000/api/category", this.form).then(
-                function (response) {
-                    this.SubCategoryAllData = response.data.data;
-                }.bind(this)
-            );
+            this.categoryList();
+            
             this.$refs.addsubcategory.classList.add("slds-fade-in-open");
             this.$refs.addsubcategorybackdrop.classList.add("slds-backdrop_open");
         },
@@ -630,11 +633,8 @@ export default {
                 document.getElementById("subcatedescerror").textContent = "Please enter Description";
                 e.preventDefault();
             }
-            this.axios.post("http://127.0.0.1:8000/api/add-sub-category", this.subCategoryData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            }).then((result) => {
+
+            SubcategoryService.saveSubCategory(this.subCategoryData).then((result) => {
                 this.getAllSubCatData();
                 this.closeSubCategoryModel();
                 this.successMessage = "Successfully Inserted";
@@ -644,9 +644,10 @@ export default {
                 console.log(err)
             });
             e.preventDefault();
+            
         },
         openViewModel(id) {
-            this.axios.post("http://127.0.0.1:8000/api/get-sub-category/" + id, this.categoryData).then((result) => {
+            SubcategoryService.getEditSubCategory(id).then((result) => {
                 this.editModelData = result.data.data;
                 console.log(this.editModelData)
             }).catch((err) => {
@@ -654,6 +655,7 @@ export default {
             });
             this.$refs.openViewModelNew.classList.add("slds-fade-in-open");
             this.$refs.openViewModelNewbackdrop.classList.add("slds-backdrop_open");
+           
         },
         closeViewModel() {
             this.$refs.openViewModelNew.classList.remove("slds-fade-in-open");
@@ -668,7 +670,7 @@ export default {
         },
         openEditModel(id) {
             // get Data By Id
-            this.axios.post("http://127.0.0.1:8000/api/get-sub-category/" + id, this.categoryData).then((result) => {
+            SubcategoryService.getEditSubCategory(id).then((result) => {
                 this.editModelData = result.data.data;
                 this.editModelData.majorCategory = result.data.data.parent_category_id;
                 //                console.log("editModelData",this.editModelData);
@@ -676,7 +678,6 @@ export default {
                 console.error(err);
             });
             this.$refs.editcategory.classList.add("slds-fade-in-open");
-            //this.$refs.editcategorybackdrop.classList.add("slds-backdrop_open");
         },
         closeEditModel() {
             this.$refs.editcategory.classList.remove("slds-fade-in-open");
@@ -727,19 +728,18 @@ export default {
                 console.log(err);
             });
         },
-    },
-    mounted() {
-        axios.get("http://127.0.0.1:8000/api/get-all-sub-category", this.form).then(
-            function (response) {
-                this.categoryAllData = response.data.data;
-            }.bind(this)
-        );
-        axios.get("http://127.0.0.1:8000/api/category", this.form).then(
+        categoryList(){
+            CategoryService.getAllCategoryList().then(
             function (response) {
                 this.SubCategoryAllData = response.data.data;
                 console.log(this.SubCategoryAllData);
             }.bind(this)
         );
+        }
+    },
+    mounted() {
+        this.getAllSubCatData();
+        this.categoryList();
     }
 }
 </script>
