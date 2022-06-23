@@ -297,7 +297,7 @@
                     </button>
                 </div>
                 <div class="slds-modal__content slds-p-around_medium modal-content-category" id="modal-content-id-1">
-                    <form @submit="addNewCategory">
+                    <form @submit="addNewCategory" >
                         <div class="modal-row">
                             <div class="modal-category-col1">
                                 <p class="mb-0 user-modal-title">Category Name</p>
@@ -329,7 +329,7 @@
                                 <p class="mb-0 user-modal-title">Upload thumbnail</p>
                             </div>
                             <div class="modal-record-col2">
-                                <Dropzone />
+                                <Dropzone @blur="e => categoryData.categoryImage = e.target.value"/>
                             </div>
                         </div>
                         <div class="btn-align-end p-0">
@@ -396,7 +396,7 @@
                                 <p class="mb-0 user-modal-title">Upload thumbnail</p>
                             </div>
                             <div class="modal-record-col2">
-                                <Dropzone />
+                                <Dropzone  />
                             </div>
                         </div>
                         <div class="btn-align-end p-0">
@@ -600,7 +600,7 @@
                             </div>
                         </div>
                         <div class="btn-align-end p-0">
-                            <FormInputButton ButtonName="Add Category" />
+                            <FormInputButton  ButtonName="Add Category" />
                         </div>
                     </form>
                 </div>
@@ -637,6 +637,7 @@ export default {
             categoryName: null,
             categoryeditName: null,
             categoryDescription: null,
+            categoryImage: null,
             categoryeditDescription: null,
             categoryAllData: [],
             editModelData: {
@@ -647,7 +648,7 @@ export default {
             categoryData: {
                 categoryName: '',
                 categoryDescription: '',
-                // categoryImage: '',
+                categoryImage: '',
             },
             selectedIndex: [],
             updateCategoryData: {
@@ -722,6 +723,7 @@ export default {
             this.$refs.openViewModelNewbackdrop.classList.remove("slds-backdrop_open");
         },
         addNewCategory(e) {
+            console.log(this.categoryData);
             document.getElementById("catnameeerror").textContent = "";
             document.getElementById("catedescerror").textContent = "";
             if (!this.categoryData.categoryName) {

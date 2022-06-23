@@ -42,6 +42,7 @@ export default {
 
         function onDrop(acceptFiles, rejectReasons) {
             saveFiles(acceptFiles); // saveFiles as callback
+            console.log("rejectReasons:",rejectReasons);
             console.log(rejectReasons);
         }
 
