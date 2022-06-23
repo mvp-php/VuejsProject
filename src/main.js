@@ -16,6 +16,7 @@ axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencod
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 
+
 //createApp(App).use(router).mount('#app')
 const app = createApp(App);
 

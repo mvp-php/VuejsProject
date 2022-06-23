@@ -541,7 +541,7 @@ import FormInputTextBox from '../../components/elements/FormInputTextBox.vue';
 import FormInputDescription from '../../components/elements/FormInputDescription.vue';
 import FormInputButton from '../../components/elements/formInputButton.vue';
 import SuccessMessageVue from '../elements/SuccessMessage.vue';
-import FormInputSelect from '../elements/FromInputSelect.vue';
+import FormInputSelect from '../elements/selectDropdown.vue';
 import axios from 'axios';
 export default {
     name: 'CategoryManagment',
