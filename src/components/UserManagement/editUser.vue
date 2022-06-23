@@ -241,6 +241,7 @@ export default {
               this.loading = false;
                     this.userDetails= response.data.data;
                     this.userForm = response.data.data;
+                    console.log(this.userForm,"vishal");
                     if(response.data.data.role_id.trim() =='772769390512275457'){
                         this.hides = false;
                     }

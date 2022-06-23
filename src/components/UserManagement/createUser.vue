@@ -84,8 +84,7 @@
                                     </div>
 
                                 </div>
-                                <div class="valid-row">
-                                    <div class="slds-form-element custom-grid valid-col1">
+                                <div class="slds-form-element custom-grid valid-col1">
 
                                         <label class="slds-form-element__label custom-label" for="text-input-id-46">
                                             Valid From <span class="require-danger">*</span></label>
@@ -105,6 +104,8 @@
                                                 placeHolder="Amount" />
                                         </div>
                                     </div>
+                                <div class="valid-row">
+                                    
                                 </div>
 
                                 <div class="slds-form-element custom-grid">
