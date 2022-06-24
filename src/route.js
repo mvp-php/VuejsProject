@@ -74,9 +74,9 @@ const routes = [
     path: '/category-management',
     component: CategoryManagment,
     name: "categoryManagement",
-    meta: {
-      middleware: [auth],
-    }
+    // meta: {
+    //   middleware: [auth],
+    // }
   },
   {
     path: '/create-user',

@@ -160,11 +160,11 @@
             id="add-category" ref="addsubcategory">
             <div class="slds-modal__container addcategory-dialog-modal p-0">
                 <div class="slds-modal__header modal-main-record-title category-title">
-                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">ADD SUB CATEGORY</h1>
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">User Detail</h1>
                     <button
                         class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse close-modal-record">
                         <svg xmlns="http://www.w3.org/2000/svg" width="11.354" height="11.385"
-                            viewBox="0 0 11.354 11.385" v-on:click="closeModel()">
+                            viewBox="0 0 11.354 11.385" v-on:click="closeViewModel()">
                             <g id="icons_utility_close-copy" data-name="icons/utility/close-copy"
                                 transform="translate(-0.462 -0.462)">
                                 <path id="Mask"
@@ -175,9 +175,107 @@
                         <span class="slds-assistive-text">Cancel and close</span>
                     </button>
                 </div>
+                <div class="slds-modal__content slds-p-around_medium modal-content-group-view" id="modal-content-id-1">
+                    <div class="modal-manage-group-main">
+                        <div class="group-row-main">
+                            <div class="group-col1">
+                                <div class="course-row-manage">
+                                    <div class="course-col1">
+                                        <div class="course-title-main">
+                                            <p class="mb-0">User Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="course-col2">
+                                        <div class="course-title-desc">
+                                            <p class="mb-0">{{ viewDetails.first_name}} {{ viewDetails.last_name}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="course-row-manage">
+                                    <div class="course-col1">
+                                        <div class="course-title-main">
+                                            <p class="mb-0">Email Id</p>
+                                        </div>
+                                    </div>
+                                    <div class="course-col2">
+                                        <div class="course-title-desc">
+                                            <p class="mb-0">{{ viewDetails.email}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="course-row-manage">
+                                    <div class="course-col1">
+                                        <div class="course-title-main">
+                                            <p class="mb-0">Role</p>
+                                        </div>
+                                    </div>
+                                    <div class="course-col2">
+                                        <div class="course-title-desc">
+                                            <p class="mb-0">{{ viewDetails.role_title}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="studentId" v-if="!viewHides">
+                                    <div class="course-row-manage">
+                                    <div class="course-col1">
+                                        <div class="course-title-main">
+                                            <p class="mb-0">Member Ship</p>
+                                        </div>
+                                    </div>
+                                    <div class="course-col2">
+                                        <div class="course-title-desc">
+                                            <p class="mb-0">{{ viewDetails.title}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="course-row-manage">
+                                    <div class="course-col1">
+                                        <div class="course-title-main">
+                                            <p class="mb-0">Valid From</p>
+                                        </div>
+                                    </div>
+                                    <div class="course-col2">
+                                        <div class="course-title-desc">
+                                            <p class="mb-0">{{ viewDetails.valid_from}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="course-row-manage">
+                                    <div class="course-col1">
+                                        <div class="course-title-main">
+                                            <p class="mb-0">Valid Till</p>
+                                        </div>
+                                    </div>
+                                    <div class="course-col2">
+                                        <div class="course-title-desc">
+                                            <p class="mb-0">{{ viewDetails.valid_till}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="course-row-manage">
+                                    <div class="course-col1">
+                                        <div class="course-title-main">
+                                            <p class="mb-0">Price</p>
+                                        </div>
+                                    </div>
+                                    <div class="course-col2">
+                                        <div class="course-title-desc">
+                                            <p class="mb-0">{{ viewDetails.price}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                </div>
+                                
+
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
               </div>
 
-     
+            
         </section>
         <div class="slds-backdrop " role="presentation" id="add-category-backdrop" ref="addsubcategorybackdrop"></div>
         <div class="slds-backdrop " role="presentation" id="edit-category-backdrop" ref="editsubcategorybackdrop"></div>
@@ -264,7 +362,8 @@ export default {
        DeleteId: '',
       roleAddLink:"create-role",
       commonLabel:"",
-      hides:true
+      hides:true,
+      viewHides:true
       
     }
 
@@ -331,12 +430,24 @@ export default {
             
           userService.getViewUserDetail(id).then((result) => {
               this.viewDetails = result.data.data;
+              console.log(this.viewDetails);
+
+              if (this.viewDetails.role_id == "772769390512275457") {
+                    this.viewHides = false;
+
+                } else {
+                    this.viewHides = true;
+                }
           }).catch((err) => {
               console.error(err);
           });
 
           this.$refs.addsubcategory.classList.add("slds-fade-in-open");
           this.$refs.addsubcategorybackdrop.classList.add("slds-backdrop_open");
+        },
+        closeViewModel() {
+            this.$refs.addsubcategory.classList.remove("slds-fade-in-open");
+            this.$refs.addsubcategorybackdrop.classList.remove("slds-backdrop_open");
         },
         openDeleteModel(id) {
             this.$refs.deleteCategoryModel.classList.add("slds-fade-in-open");

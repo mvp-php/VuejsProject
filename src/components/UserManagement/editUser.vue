@@ -119,7 +119,7 @@
                                     <label class="slds-form-element__label custom-label" for="text-input-id-46">
                                         Amount <span class="require-danger">*</span></label>
                                     <div class="slds-form-element__control custom-grid-control">
-                                        <InputTextBox @blur="e => userForm.amount = e.target.value"
+                                        <InputTextBox @blur="e => userForm.price = e.target.value"
                                             class="slds-input custom-grid-input mb-20" id="email"
                                             placeHolder="Amount" :value="`${userDetails.price}`"/>
                                     </div>
@@ -240,8 +240,9 @@ export default {
             userService.getUserDetails(this.$route.params.id).then(response => {
               this.loading = false;
                     this.userDetails= response.data.data;
+                    console.log(this.userDetails);
                     this.userForm = response.data.data;
-                    console.log(this.userForm,"vishal");
+                   
                     if(response.data.data.role_id.trim() =='772769390512275457'){
                         this.hides = false;
                     }

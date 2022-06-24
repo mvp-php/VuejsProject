@@ -7,7 +7,7 @@
         <div class="slds-form-element custom-form-element mb-30">
           <label class="slds-form-element__label text-white" for="text-input-id-2">EMAIL ID</label>
           <div class="slds-form-element__control">
-            <input v-model="loginForm.email" type="email" name="email" id="text-input-id-2" class="slds-input"
+            <input v-model="loginForm.email" type="text" name="email" id="text-input-id-2" class="slds-input"
               placeholder="Email"  autocomplete="off" />
               <span class="text-danger" id="email_error" ref="caterror"></span>
               
@@ -32,6 +32,8 @@
       </form>
 
     </div>
+    <dangerMessage :success-message="dangerMessage" id="successMsg" class="successMsg"
+                            v-if="!hides" ref="successNewMsg" />
   </section>
 
 </template>
@@ -41,12 +43,14 @@
 @import '@/assets/styles/salesforce-lightning-design-system.min.css';
 </style>
 <script>
-
+import dangerMessage from './elements/dangerMessage.vue';
 
 export default {
   
   name: "LoginNew",
-   components: {},
+   components: {
+    dangerMessage
+   },
   data() {
     return {
     
@@ -57,6 +61,8 @@ export default {
       },
       allerros: [],
       isSubmitted: false,
+      hides:true,
+      dangerMessage:''
       
     }
   },
@@ -69,13 +75,13 @@ export default {
         
         var cnt =0;
 
-        if(!this.loginForm.email){
+        if(!this.loginForm.email.trim()){
             document.getElementById("email_error").textContent = "Enter the email address";
             event.preventDefault();
             cnt =1;
         }
 
-        if(!this.loginForm.password){
+        if(!this.loginForm.password.trim()){
             document.getElementById("password_error").textContent = "Enter the password";
             event.preventDefault();
             cnt =1;
@@ -86,20 +92,25 @@ export default {
           headers: {}
         }).then((result) => {
           
-          this.allerros = [];
-          localStorage.setItem("userData", JSON.stringify(result.data.data))
-          this.$router.push({ name: 'user-management' });
-        }).catch(error => {
-          this.allerros = error.response.data.error_msg;
-          this.$toast.error(error.response.data.error_msg);
+            this.allerros = [];
+            localStorage.setItem("userData", JSON.stringify(result.data.data))
+            this.$router.push({ name: 'user-management' });
+          }).catch(error => {
+            this.dangerMessage =error.response.data.error_msg;
+            this.dangerToastrShow();
+          
 
         })
         setTimeout(this.$toast.clear, 3000)
         event.preventDefault();
-        }
+      }
       
       
     },
+    dangerToastrShow() {
+          this.hides = false;
+          setTimeout(() => this.hides = true, 5000);
+      },
     toggleShow() {
       this.showPassword = !this.showPassword;
     }

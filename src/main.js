@@ -4,7 +4,7 @@ import router from './route'
 import './assets/styles/style.css'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import { VuelidatePlugin } from '@vuelidate/core'
+// import { VuelidatePlugin } from '@vuelidate/core' 
 import Vuelidate from 'vuelidate'
 
 import VueToast from 'vue-toast-notification';
@@ -23,7 +23,7 @@ const app = createApp(App);
 app.use(VueAxios, axios)
 app.use(VueToast)
 app.use(Vuelidate)
-app.use(VuelidatePlugin)
+// app.use(VuelidatePlugin)
 
 app.use(router);
 
