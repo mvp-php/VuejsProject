@@ -10,12 +10,12 @@
 
 <script>
 import { useDropzone } from "vue3-dropzone";
-// import axios from "axios";
+import axios from "axios";
 
 export default {
     name: "UseDropzoneDemo",
     setup() {
-        // const url = "{your_url}"; // Your url on the server side
+        const url = "http://127.0.0.1:8000/api/add-category"; // Your url on the server side
         const saveFiles = (files) => {
             const formData = new FormData(); // pass data as a form
             for (var x = 0; x < files.length; x++) {
@@ -26,18 +26,18 @@ export default {
 
             // post the formData to your backend where storage is processed. In the backend, you will need to loop through the array and save each file through the loop.
 
-            // axios
-            //     .post(url, formData, {
-            //         headers: {
-            //             "Content-Type": "multipart/form-data",
-            //         },
-            //     })
-            //     .then((response) => {
-            //         console.info(response.data);
-            //     })
-            //     .catch((err) => {
-            //         console.error(err);
-            //     });
+            axios
+                .post(url, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
+                .then((response) => {
+                    console.info(response.data);
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
         };
 
         function onDrop(acceptFiles, rejectReasons) {
