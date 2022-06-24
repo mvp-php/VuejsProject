@@ -734,6 +734,13 @@ export default {
                 document.getElementById("catedescerror").textContent = "Please enter Description";
                 e.preventDefault();
             }
+
+                // dropzone image upload
+                // dropzone image upload
+
+
+
+
             this.axios.post("http://127.0.0.1:8000/api/add-category", this.categoryData, {
                 headers: {
                     "Content-Type": "multipart/form-data",

@@ -42,7 +42,7 @@ export default {
 
         function onDrop(acceptFiles, rejectReasons) {
             saveFiles(acceptFiles); // saveFiles as callback
-            console.log("rejectReasons:",rejectReasons);
+            console.log("rejectReasons:", rejectReasons);
             console.log(rejectReasons);
         }
 
@@ -69,27 +69,27 @@ export default {
     border: 2px dashed #41b883;
     background-color: #fff;
     transition: 0.3s ease all;
+}
 
-    label {
-        padding: 8px 12px;
-        color: #fff;
-        background-color: #41b883;
-        transition: 0.3s ease all;
-    }
+label {
+    padding: 8px 12px;
+    color: #fff;
+    background-color: #41b883;
+    transition: 0.3s ease all;
+}
 
-    input {
-        display: none;
-    }
+input {
+    display: none;
 }
 
 .active-dropzone {
     color: #fff;
     border-color: #fff;
     background-color: #41b883;
+}
 
-    label {
-        background-color: #fff;
-        color: #41b883;
-    }
+label {
+    background-color: #fff;
+    color: #41b883;
 }
 </style>
